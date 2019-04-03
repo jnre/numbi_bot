@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "/home/joseph/.local/share/virtualenvs/numbot-PQoeH8Qh/bin/python"
+    "python.pythonPath": "/home/joseph/.local/share/virtualenvs/numbot-PQoeH8Qh/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }

@@ -29,7 +29,7 @@ CHOOSING, TYPING_REPLY = range(2)
 
 #reply_keyboard=[['Age','Favourite color'],['Number of siblings','Something else...'],['Done']]
 reply_keyboard1=[['/setnum'],['/getnum'],['/donenum']]
-markup = ReplyKeyboardMarkup(reply_keyboard1,one_time_keyboard=True)
+markup = ReplyKeyboardMarkup(reply_keyboard1,one_time_keyboard=True,selective=True)
 
 
 
@@ -40,9 +40,9 @@ def facts_to_str(chat_data):
     facts = list()
 
     for key, value in chat_data.items():
-        facts.append('{}-{}'.format(key,value))
-    return "\n".join(facts).join(['\n','\n'])
-
+        facts.append('{}'.format(value))
+    #return "\n".join(facts).join(['\n','\n'])
+    return "".join(facts)
 # def start(bot, update):
 #     reply_keyboard = [['Boy','Girl','Other']]
 #     #update.message.reply_text('Hi! use /set to set num')
@@ -52,7 +52,11 @@ def facts_to_str(chat_data):
 #     return GENDER
 
 def start(update,context):
-    update.message.reply_text('what u want?',reply_markup=markup)
+    update.message.reply_text("welcome to the num bot! \n\n"
+                                "/getnum to get the number \n"
+                                "/setnum to set the number if you are the admin\n"
+                                "/donenum to exit the bot, but you wouldnt need to do that\n\n"    
+                                "current number is: {}".format(facts_to_str(context.chat_data)),reply_markup=markup)
 
     return CHOOSING
 
@@ -75,7 +79,7 @@ def get_choice(update,context):
         update.message.reply_text('number does not exist!',reply_markup=markup)
     
     else:
-        update.message.reply_text('{}'.format(facts_to_str(context.chat_data)),reply_markup=markup)
+        update.message.reply_text('Number is: {}'.format(facts_to_str(context.chat_data)),reply_markup=markup)
     
     return CHOOSING
 
@@ -88,7 +92,7 @@ def received_information(update, context):
     #i think lower means lower caps, text(no data) passed into category "Get Number"
     context.chat_data['Get Number'] = text.lower()
 
-    update.message.reply_text("{} " .format(facts_to_str(context.chat_data)),
+    update.message.reply_text("Number has been set to :{} " .format(facts_to_str(context.chat_data)),
                               reply_markup=markup)
 
     return CHOOSING
@@ -122,7 +126,8 @@ def main():
                     states={
 
                         CHOOSING: [MessageHandler(Filters.regex('/setnum'),set_choice),
-                                    MessageHandler(Filters.regex('/getnum'),get_choice)],
+                                    MessageHandler(Filters.regex('/getnum'),get_choice),
+                                    MessageHandler(Filters.regex('/startnum'),start)],
                         
 
                         TYPING_REPLY: [MessageHandler(Filters.text,received_information)]
