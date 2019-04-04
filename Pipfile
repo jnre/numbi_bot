@@ -6,9 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-requests = "*"
-logging = "*"
-python-telegram-bot = "*"
+python-telegram-bot = "==12.0.0b1"
 
 [requires]
 python_version = "3.5"
