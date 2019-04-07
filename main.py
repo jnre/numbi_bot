@@ -174,4 +174,9 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as e:
+        with sentry_sdk.push_scope() as scope:
+            scope.set_extra('debug', False)
+            sentry_sdk.capture_exception(e)
