@@ -6,6 +6,8 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+python-telegram-bot = "12.0.0b1"
+sentry-sdk = "*"
 
 [requires]
 python_version = "3.5"
